@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../modules/spui.css">
+    <script src="../../modules/spui.js"></script>
+    <style>
+    /* #canvas {
+        background : #ffffff ;
+        margin-left : 10px ;
+        margin-top : 10px ;
+        -webkit-box-shadow : 4px 4px 8px rgba ( 0 , 0 , 0 , 0.5 ) ;
+        -moz-box-shadow : 4px 4px 8px rgba ( 0 , 0 , 0 , 0.5 ) ;
+        box-shadow : 4px 4px 8px rgba ( 0 , 0 , 0 , 0.5 ) ;
+    } */
+
+          body {
+              background : #eeeeee ;
+              margin: 0;
+          }
+          #canvas {
+              background : #ffffff ;
+              margin : 10px;
+              border: 30px solid;
+              -webkit-box-shadow : 4px 4px 8px rgba ( 0 , 0 , 0 , 0.5 ) ;
+              -moz-box-shadow : 4px 4px 8px rgba ( 0 , 0 , 0 , 0.5 ) ;
+              box-shadow : 4px 4px 8px rgba ( 0 , 0 , 0 , 0.5 ) ;
+          }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p id="title"></p>
+        <canvas id="canvas"></canvas>
+        <div>
+            <sp-button id="star" type="primary">star</sp-button>
+            <sp-button id="stop" type="danger">stop</sp-button>
+        </div>
+    </div>
+
+    <script src="./index.js" type="module"></script>
+</body>
+</html>

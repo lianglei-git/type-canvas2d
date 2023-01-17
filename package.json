@@ -1,0 +1,17 @@
+{
+  "name": "canvas2d-typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "http-server": "^14.1.1",
+    "vite-node": "^0.26.3"
+  },
+  "scripts": {
+    "start": "vite-node",
+    "watch": "http-server -o -c 1 -e .js & sleep 2 & tsc --watch "
+  },
+  "description": "> 学习周期： 2023/1/5~2023/1/18 (11天) #### 学习分为两个方向 1. [深入理解typescript这本书](https://jkchao.github.io/typescript-book-chinese/project/modules.html#%E5%85%A8%E5%B1%80%E6%A8%A1%E5%9D%97) 2. [typescript图形作战](https://weread.qq.com/web/reader/d6b32000717cc126d6bdb9bkd3d322001ad3d9446802347) 2022-1-5学习 目的：使用typescript进行canvas的UI开发",
+  "devDependencies": {},
+  "author": ""
+}
