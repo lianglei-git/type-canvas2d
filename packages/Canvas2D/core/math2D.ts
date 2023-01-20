@@ -46,13 +46,28 @@ export class Rectangle {
         this.origin = orign;
         this.size = size;
     }
-    public isEmpty(){
+    public isEmpty() {
         return this.size.isEmpty() || this.origin.isEmpty();
     }
     // 静态create方法
-    public static create(x: number = 0, y: number = 0, w: number =1, h: number = 1): Rectangle {
+    public static create(x: number = 0, y: number = 0, w: number = 1, h: number = 1): Rectangle {
         let origin: vec2 = new vec2(x, y);
         let size: Size = new Size(w, h);
         return new Rectangle(origin, size);
+    }
+}
+
+// 使用const关键字定义常数
+const PiBy180: number = 0.017453292519943295; // Math . PI / 180.0
+export class Math2D {
+
+    // 将以角度表示的参数转换为弧度表示
+    public static toRadian(degree: number): number {
+        return degree * PiBy180;
+    }
+
+    // 将以弧度表示的参数转换为角度表示
+    public static toDegree(radian: number): number {
+        return radian / PiBy180;
     }
 }

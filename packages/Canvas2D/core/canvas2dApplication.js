@@ -1,4 +1,16 @@
-import { Application, Rectangle } from './index';
+import { Application, Rectangle, Size, vec2 } from './index';
+export var ETextLayout;
+(function (ETextLayout) {
+    ETextLayout[ETextLayout["LEFT_TOP"] = 0] = "LEFT_TOP";
+    ETextLayout[ETextLayout["RIGHT_TOP"] = 1] = "RIGHT_TOP";
+    ETextLayout[ETextLayout["RIGHT_BOTTOM"] = 2] = "RIGHT_BOTTOM";
+    ETextLayout[ETextLayout["LEFT_BOTTOM"] = 3] = "LEFT_BOTTOM";
+    ETextLayout[ETextLayout["CENTER_MIDDLE"] = 4] = "CENTER_MIDDLE";
+    ETextLayout[ETextLayout["CENTER_TOP"] = 5] = "CENTER_TOP";
+    ETextLayout[ETextLayout["RIGHT_MIDDLE"] = 6] = "RIGHT_MIDDLE";
+    ETextLayout[ETextLayout["CENTER_BOTTOM"] = 7] = "CENTER_BOTTOM";
+    ETextLayout[ETextLayout["LEFT_MIDDLE"] = 8] = "LEFT_MIDDLE";
+})(ETextLayout || (ETextLayout = {}));
 export var EImageFillType;
 (function (EImageFillType) {
     EImageFillType[EImageFillType["STRETCH"] = 0] = "STRETCH";
@@ -230,5 +242,115 @@ export class Canvas2DApplication extends Application {
             this.context2D.shadowOffsetX = shadowOffsetX;
             this.context2D.shadowOffsetY = shadowOffsetY;
         }
+    }
+    fillRectWithTitle(x, y, width, height, title = '', layout = ETextLayout.CENTER_MIDDLE, color = 'grey', showCoord = true) {
+        if (this.context2D !== null) {
+            this.context2D.save();
+            // 1. 绘制矩形
+            this.context2D.fillStyle = color;
+            this.context2D.beginPath();
+            this.context2D.rect(x, y, width, height);
+            this.context2D.fill();
+            // 如果有文字的话，先根据枚举值计算x、y坐标
+            if (title.length !== 0) {
+                // 2. 绘制文字信息
+                // 在矩形的左上角绘制出相关文字信息，使用的是10px大小的文字
+                // 调用calcLocalTextRectangle方法
+                let rect = this.calcLocalTextRectangle(layout, title, width, height);
+                // 修改样式
+                // const font: string = this.makeFontString('18px', 'bold', 'italic', 'small-caps', 'sans-serif')
+                // 绘制文本
+                this.fillText(title, x + rect.origin.x, y + rect.origin.y, 'white', 'left', 'top', '10px sans-serif');
+                // 绘制文本框
+                this.strokeRect(x + rect.origin.x, y + rect.origin.y, rect.size.width, rect.size.height, 'rgba( 0 , 0 ,0, 0.5) ');
+                // 绘制文本框左上角坐标（相对父矩形表示）
+                this.fillCircle(x + rect.origin.x, y + rect.origin.y, 2);
+            }
+            // 3. 绘制变换的局部坐标系
+            // 附加一个坐标，x轴和y轴比矩形的width和height多20个像素
+            // 并且绘制3个像素的原点
+            if (showCoord) {
+                this.strokeCoord(x, y, width + 20, height + 20);
+                this.fillCircle(x, y, 3);
+            }
+            this.context2D.restore();
+        }
+    }
+    // parentWidth / parentHeight是父矩形的尺寸
+    // 函数返回类型是Rectangle，表示9个文本子矩形之一
+    // 这些子矩形是相对父矩形坐标系的表示
+    // 这意味着父矩形原点为[0 , 0]，所以参数是父矩形的width和height，而没有x和y坐标
+    calcLocalTextRectangle(layout, text, parentWidth, parentHeight) {
+        // 首先计算出要绘制的文本的尺寸（width / hegiht）
+        let s = this.calcTextSize(text);
+        // 创建一个二维向量
+        let o = vec2.create();
+        // 计算出当前文本子矩形左上角相对父矩形空间中的3个关键点（左上、中心、右下）坐标
+        // 1．当前文本子矩形左上角相对父矩形左上角坐标，由于局部表示，所以为[ 0 , 0 ]
+        let left = 0;
+        let top = 0;
+        // 2．当前文本子矩形左上角相对父矩形右下角坐标
+        let right = parentWidth - s.width;
+        let bottom = parentHeight - s.height;
+        // 3．当前文本子矩形左上角相对父矩形中心点坐标
+        let center = right * 0.5;
+        let middle = bottom * 0.5;
+        // 根据ETextLayout的值来匹配这3个点的分量
+        // 计算子矩形相对父矩形原点[ 0 , 0 ]偏移量
+        switch (layout) {
+            case ETextLayout.LEFT_TOP:
+                o.x = left;
+                o.y = top;
+                break;
+            case ETextLayout.RIGHT_TOP:
+                o.x = right;
+                o.y = top;
+                break;
+            case ETextLayout.RIGHT_BOTTOM:
+                o.x = right;
+                o.y = bottom;
+                break;
+            case ETextLayout.LEFT_BOTTOM:
+                o.x = left;
+                o.y = bottom;
+                break;
+            case ETextLayout.CENTER_MIDDLE:
+                o.x = center;
+                o.y = middle;
+                break;
+            case ETextLayout.CENTER_TOP:
+                o.x = center;
+                o.y = 0;
+                break;
+            case ETextLayout.RIGHT_MIDDLE:
+                o.x = right;
+                o.y = middle;
+                break;
+            case ETextLayout.CENTER_BOTTOM:
+                o.x = center;
+                o.y = bottom;
+                break;
+            case ETextLayout.LEFT_MIDDLE:
+                o.x = left;
+                o.y = middle;
+                break;
+        }
+        // 返回子矩形
+        return new Rectangle(o, s);
+    }
+    // 笔者测试大小写26个英文字母后（10px sans-serif默认字体）
+    // 决定使用大写W的宽度加上scale为0.5作为行高计算的要点（默认参数）
+    // 其他字体或字体尺寸请自行做实验
+    calcTextSize(text, char = 'W', scale = 0.5) {
+        if (this.context2D !== null) {
+            let size = new Size();
+            size.width = this.context2D.measureText(text).width;
+            let w = this.context2D.measureText(char).width;
+            size.height = w + w * scale; // 宽度上加scale比例
+            return size;
+        }
+        // 直接报错
+        alert(" context2D渲染上下文为null ");
+        throw new Error(" context2D渲染上下文为null ");
     }
 }

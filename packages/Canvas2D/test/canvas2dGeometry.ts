@@ -24,6 +24,8 @@ interface CanvasRenderingContext2D extends CanvasPathMethods {
 // implements CanvasRenderingContext2D 
 
 export default class GeometryTes extends Canvas2DApplication {
+
+
     fillStyle = ''
     strokeStyle = ''
     // 由于Colors独一无二，没有多个实例

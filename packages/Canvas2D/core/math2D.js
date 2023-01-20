@@ -55,3 +55,15 @@ export class Rectangle {
         return new Rectangle(origin, size);
     }
 }
+// 使用const关键字定义常数
+const PiBy180 = 0.017453292519943295; // Math . PI / 180.0
+export class Math2D {
+    // 将以角度表示的参数转换为弧度表示
+    static toRadian(degree) {
+        return degree * PiBy180;
+    }
+    // 将以弧度表示的参数转换为角度表示
+    static toDegree(radian) {
+        return radian / PiBy180;
+    }
+}
