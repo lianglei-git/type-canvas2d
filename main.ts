@@ -6,7 +6,6 @@ window.addEventListener('load', () => {
         'canvas2dCoord': './packages/Canvas2DCoord/index.html',
     }
     
-    
     const iframe:any = document.getElementById('iframe');
     const div = document.createElement('div');
     for(let k in map) {
