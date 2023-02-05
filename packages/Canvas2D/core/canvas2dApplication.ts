@@ -28,7 +28,7 @@ type FontFamily = "sans-serif" | "serif" | "courier" | "fantasy" |
 type FontType = "10px sans-serif" | "15px sans-serif" | "20px sans-serif"
     | "25px sans-serif";
 
-export enum ETextLayout {
+export enum ELayout {
     LEFT_TOP,
     RIGHT_TOP,
     RIGHT_BOTTOM,
@@ -101,7 +101,6 @@ export class Canvas2DApplication extends Application {
             this.context2D.strokeStyle = style;
             this.context2D.strokeRect(x, y, w, h);
             this.context2D.restore();
-
         }
     }
 
@@ -112,7 +111,6 @@ export class Canvas2DApplication extends Application {
             this.context2D.fillStyle = style;
             this.context2D.fillRect(x, y, w, h);
             this.context2D.restore();
-
         }
     }
 
@@ -151,7 +149,7 @@ export class Canvas2DApplication extends Application {
             this.context2D.save();
             this.context2D.fillStyle = fillStyle;
             this.context2D.beginPath();
-            // 圆是圆弧的特殊表现形式[startAngle = 0 , endAngle = 2 ＊ Math . PI ]
+            // 圆是圆弧的特殊表现形式[startAngle = 0 , endAngle = 2 * Math . PI ]
             this.context2D.arc(x, y, radius, 0, Math.PI * 2);
             //只是使用fill，如要用stroke，请设置strokeStyle属性和调用stroke方法
             this.context2D.fill();
@@ -159,6 +157,23 @@ export class Canvas2DApplication extends Application {
             this.context2D.restore();
         }
     }
+
+    /** 绘制圆形 轮廓 */
+    public strokeCircle(x: number, y: number, radius: number, fillStyle: string | CanvasGradient | CanvasPattern = 'red'): void {
+        if (this.context2D !== null) {
+            //流程
+            this.context2D.save();
+            this.context2D.fillStyle = fillStyle;
+            this.context2D.beginPath();
+            // 圆是圆弧的特殊表现形式[startAngle = 0 , endAngle = 2 * Math . PI ]
+            this.context2D.arc(x, y, radius, 0, Math.PI * 2);
+            //只是使用fill，如要用stroke，请设置strokeStyle属性和调用stroke方法
+            this.context2D.stroke();
+            //流程
+            this.context2D.restore();
+        }
+    }
+
 
     // 填充文字
     public fillText(text: string, x: number, y: number, color: string =
@@ -316,10 +331,11 @@ export class Canvas2DApplication extends Application {
         }
     }
 
+    /** 绘制矩形 title中心显示 */
     public fillRectWithTitle(
         x: number, y: number,
         width: number, height: number,
-        title: string = '', layout: ETextLayout = ETextLayout.CENTER_MIDDLE,
+        title: string = '', layout: ELayout = ELayout.CENTER_MIDDLE,
         color: string = 'grey', showCoord: boolean = true): void {
         if (this.context2D !== null) {
 
@@ -359,7 +375,7 @@ export class Canvas2DApplication extends Application {
     // 函数返回类型是Rectangle，表示9个文本子矩形之一
     // 这些子矩形是相对父矩形坐标系的表示
     // 这意味着父矩形原点为[0 , 0]，所以参数是父矩形的width和height，而没有x和y坐标
-    public calcLocalTextRectangle(layout: ETextLayout, text: string, parentWidth: number, parentHeight: number): Rectangle {
+    public calcLocalTextRectangle(layout: ELayout, text: string, parentWidth: number, parentHeight: number): Rectangle {
         // 首先计算出要绘制的文本的尺寸（width / hegiht）
         let s: Size = this.calcTextSize(text);
         // 创建一个二维向量
@@ -374,42 +390,41 @@ export class Canvas2DApplication extends Application {
         // 3．当前文本子矩形左上角相对父矩形中心点坐标
         let center: number = right * 0.5;
         let middle: number = bottom * 0.5;
-        // 根据ETextLayout的值来匹配这3个点的分量
         // 计算子矩形相对父矩形原点[ 0 , 0 ]偏移量
         switch (layout) {
-            case ETextLayout.LEFT_TOP:
+            case ELayout.LEFT_TOP:
                 o.x = left;
                 o.y = top;
                 break;
-            case ETextLayout.RIGHT_TOP:
+            case ELayout.RIGHT_TOP:
                 o.x = right;
                 o.y = top;
                 break;
-            case ETextLayout.RIGHT_BOTTOM:
+            case ELayout.RIGHT_BOTTOM:
                 o.x = right;
                 o.y = bottom;
                 break;
-            case ETextLayout.LEFT_BOTTOM:
+            case ELayout.LEFT_BOTTOM:
                 o.x = left;
                 o.y = bottom;
                 break;
-            case ETextLayout.CENTER_MIDDLE:
+            case ELayout.CENTER_MIDDLE:
                 o.x = center;
                 o.y = middle;
                 break;
-            case ETextLayout.CENTER_TOP:
+            case ELayout.CENTER_TOP:
                 o.x = center;
                 o.y = 0;
                 break;
-            case ETextLayout.RIGHT_MIDDLE:
+            case ELayout.RIGHT_MIDDLE:
                 o.x = right;
                 o.y = middle;
                 break;
-            case ETextLayout.CENTER_BOTTOM:
+            case ELayout.CENTER_BOTTOM:
                 o.x = center;
                 o.y = bottom;
                 break;
-            case ETextLayout.LEFT_MIDDLE:
+            case ELayout.LEFT_MIDDLE:
                 o.x = left;
                 o.y = middle;
                 break;
@@ -432,5 +447,145 @@ export class Canvas2DApplication extends Application {
         // 直接报错
         alert(" context2D渲染上下文为null ");
         throw new Error(" context2D渲染上下文为null ");
+    }
+
+
+    /** fillRectWithTitle加强版本 */
+    public fillLocalRectWithTitle(
+        width: number,                              //要绘制的矩形宽度
+        height: number,                             //要绘制的矩形高度
+        title: string = '',                         //矩形中显示的字符串
+        referencePt: ELayout = ELayout.CENTER_MIDDLE,
+        //坐标系原点位置，默认居中
+        layout: ELayout = ELayout.CENTER_MIDDLE,
+        //文字框位置，默认居中绘制文本
+        color: string = 'grey',                   //要绘制矩形的填充颜色
+        showCoord: boolean = true
+        //是否显示局部坐标系，默认为显示局部坐标系
+    ): void {
+        if (this.context2D !== null) {
+            let x: number = 0;
+            let y: number = 0;
+            // 首先根据referencePt的值计算原点相对左上角的偏移量
+            // Canvas2D中，左上角是默认的坐标系原点，所有原点变换都是相对左上角的偏移
+            switch (referencePt) {
+                case ELayout.LEFT_TOP:      //Canvas2D中，默认是左上角为坐标系原点
+                    x = 0;
+                    y = 0;
+                    break;
+                case ELayout.LEFT_MIDDLE:                //左中为原点
+                    x = 0;
+                    y = -height * 0.5;
+                    break;
+                case ELayout.LEFT_BOTTOM:               //左下为原点
+                    x = 0;
+                    y = -height;
+                    break;
+                case ELayout.RIGHT_TOP:                  //右上为原点
+                    x = -width;
+                    y = 0;
+                    break;
+                case ELayout.RIGHT_MIDDLE:               //右中为原点
+                    x = -width;
+                    y = -height * 0.5;
+                    break;
+                case ELayout.RIGHT_BOTTOM:               //右下为原点
+                    x = -width;
+                    y = -height;
+                    break;
+                case ELayout.CENTER_TOP:                //中上为原点
+                    x = -width * 0.5;
+                    y = 0;
+                    break;
+                case ELayout.CENTER_MIDDLE:              //中中为原点
+                    x = -width * 0.5;
+                    y = -height * 0.5;
+                    break;
+                case ELayout.CENTER_BOTTOM:             //中下为原点
+                    x = -width * 0.5;
+                    y = -height;
+                    break;
+            }
+            // 下面的代码和上一章实现的fillRectWithTitle一样
+            this.context2D.save();
+            // 1. 绘制矩形
+            this.context2D.fillStyle = color;
+            this.context2D.beginPath();
+            this.context2D.rect(x, y, width, height);
+            this.context2D.fill();
+            // 如果有文字，先根据枚举值计算x, y坐标
+            if (title.length !== 0) {
+                // 2. 绘制文字信息
+                // 在矩形的左上角绘制出相关文字信息，使用的是10px大小的文字
+                let rect: Rectangle = this.calcLocalTextRectangle(layout, title, width, height);
+                // 绘制文本
+                this.fillText(title, x + rect.origin.x, y + rect.origin.
+                    y, 'white', 'left', 'top' /*, '10px sans-serif'*/);
+                // 绘制文本框
+                this.strokeRect(x + rect.origin.x, y + rect.origin.
+                    y, rect.size.width, rect.size.height, 'rgba( 0 , 0 ,0, 0.5) ');
+                // 绘制文本框左上角坐标（相对父矩形表示）
+                this.fillCircle(x + rect.origin.x, y + rect.origin.
+                    y, 2);
+            }
+            // 3. 绘制变换的局部坐标系，局部坐标原点总是为[ 0 , 0 ]
+            // 附加一个坐标，x轴和y轴比矩形的width和height多20像素
+            // 并且绘制3像素的原点
+            if (showCoord) {
+                this.strokeCoord(0, 0, width + 20, height + 20);
+                this.fillCircle(0, 0, 3);
+            }
+            this.context2D.restore();
+        }
+    }
+
+
+    // fillLocalRectWithTitle 加强版
+    public fillLocalRectWithTitleUV(
+        width: number, height: number,                     //矩形尺寸
+        title: string = '',                                     //矩形显示的文字内容
+        u: number = 0, v: number = 0,
+        //这里使用u和v参数代替原来的ELayout枚举
+        layout: ELayout = ELayout.CENTER_MIDDLE,         //文字框的对齐方式
+        color: string = 'grey',                                //矩形填充颜色
+        showCoord: boolean = true       // 是否显示局部坐标系，默认显示
+    ): void {
+        if (this.context2D !== null) {
+            // 将原来的fillLocalRectWithTitle方法中的ELayout 9种处理方式的代码替换
+            // 成如下代码：
+            let x: number = -width * u;
+            let y: number = -height * v;
+            // 和fillLocalRectWithTitle中的绘制代码一样
+            // 下面的代码和上一章实现的fillRectWithTitle一样
+            this.context2D.save();
+            // 1. 绘制矩形
+            this.context2D.fillStyle = color;
+            this.context2D.beginPath();
+            this.context2D.rect(x, y, width, height);
+            this.context2D.fill();
+            // 如果有文字，先根据枚举值计算x, y坐标
+            if (title.length !== 0) {
+                // 2. 绘制文字信息
+                // 在矩形的左上角绘制出相关文字信息，使用的是10px大小的文字
+                let rect: Rectangle = this.calcLocalTextRectangle(layout, title, width, height);
+                // 绘制文本
+                this.fillText(title, x + rect.origin.x, y + rect.origin.
+                    y, 'white', 'left', 'top' /*, '10px sans-serif'*/);
+                // 绘制文本框
+                this.strokeRect(x + rect.origin.x, y + rect.origin.
+                    y, rect.size.width, rect.size.height, 'rgba( 0 , 0 ,0, 0.5) ');
+                // 绘制文本框左上角坐标（相对父矩形表示）
+                this.fillCircle(x + rect.origin.x, y + rect.origin.
+                    y, 2);
+            }
+            // 3. 绘制变换的局部坐标系，局部坐标原点总是为[ 0 , 0 ]
+            // 附加一个坐标，x轴和y轴比矩形的width和height多20像素
+            // 并且绘制3像素的原点
+            if (showCoord) {
+                this.strokeCoord(0, 0, width + 20, height + 20);
+                this.fillCircle(0, 0, 3);
+            }
+            this.context2D.restore();
+        }
     }
 }

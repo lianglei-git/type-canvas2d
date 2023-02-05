@@ -1,4 +1,4 @@
-import { Canvas2DApplication } from '../core/index';
+import { Canvas2DApplication, ELayout } from '../core/index';
 import _createtab from './_createtab';
 /**
  *
@@ -16,18 +16,6 @@ import _createtab from './_createtab';
       readonly  width : number ;
     }
  */
-export var ETextLayout;
-(function (ETextLayout) {
-    ETextLayout[ETextLayout["LEFT_TOP"] = 0] = "LEFT_TOP";
-    ETextLayout[ETextLayout["RIGHT_TOP"] = 1] = "RIGHT_TOP";
-    ETextLayout[ETextLayout["RIGHT_BOTTOM"] = 2] = "RIGHT_BOTTOM";
-    ETextLayout[ETextLayout["LEFT_BOTTOM"] = 3] = "LEFT_BOTTOM";
-    ETextLayout[ETextLayout["CENTER_MIDDLE"] = 4] = "CENTER_MIDDLE";
-    ETextLayout[ETextLayout["CENTER_TOP"] = 5] = "CENTER_TOP";
-    ETextLayout[ETextLayout["RIGHT_MIDDLE"] = 6] = "RIGHT_MIDDLE";
-    ETextLayout[ETextLayout["CENTER_BOTTOM"] = 7] = "CENTER_BOTTOM";
-    ETextLayout[ETextLayout["LEFT_MIDDLE"] = 8] = "LEFT_MIDDLE";
-})(ETextLayout || (ETextLayout = {}));
 /** 文本的实现 和 测试  */
 class TextTest extends Canvas2DApplication {
     printTextStates() {
@@ -110,39 +98,39 @@ class TextTest extends Canvas2DApplication {
         // 1. 画背景rect
         this.fillRectWithTitle(x, y, width, height);
         // 2. 左上
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'left - top', ETextLayout.LEFT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'left - top', ELayout.LEFT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
         // 3. 右上
         drawX = right - drawWidth;
         drawY = y;
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'right - top', ETextLayout.RIGHT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'right - top', ELayout.RIGHT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
         // 4. 右下
         drawX = right - drawWidth;
         drawY = bottom - drawHeight;
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'right - bottom', ETextLayout.RIGHT_BOTTOM, 'rgba( 255 , 255 ,0, 0.2)');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'right - bottom', ELayout.RIGHT_BOTTOM, 'rgba( 255 , 255 ,0, 0.2)');
         // 5. 左下
         drawX = x;
         drawY = bottom - drawHeight;
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'left - bottom', ETextLayout.LEFT_BOTTOM, 'rgba( 255 , 255 , 0 ,0.2)');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'left - bottom', ELayout.LEFT_BOTTOM, 'rgba( 255 , 255 , 0 ,0.2)');
         // 6. 中心
         drawX = (right - drawWidth) * 0.5;
         drawY = (bottom - drawHeight) * 0.5;
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'center - middle', ETextLayout.CENTER_MIDDLE, 'rgba( 255 , 0 ,0, 0.2)');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'center - middle', ELayout.CENTER_MIDDLE, 'rgba( 255 , 0 ,0, 0.2)');
         // 7. 中上
         drawX = (right - drawWidth) * 0.5;
         drawY = y;
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'center - top', ETextLayout.CENTER_TOP, 'rgba( 0 , 255 , 0 , 0.2 )');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'center - top', ELayout.CENTER_TOP, 'rgba( 0 , 255 , 0 , 0.2 )');
         // 8. 右中
         drawX = (right - drawWidth);
         drawY = (bottom - drawHeight) * 0.5;
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'right - middle', ETextLayout.RIGHT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'right - middle', ELayout.RIGHT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
         // 9. 中下
         drawX = (right - drawWidth) * 0.5;
         drawY = (bottom - drawHeight);
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'center - bottom', ETextLayout.CENTER_BOTTOM, 'rgba( 0 , 255 ,0, 0.2)');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'center - bottom', ELayout.CENTER_BOTTOM, 'rgba( 0 , 255 ,0, 0.2)');
         // 10. 左中
         drawX = x;
         drawY = (bottom - drawHeight) * 0.5;
-        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'left - middle', ETextLayout.LEFT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
+        this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight, 'left - middle', ELayout.LEFT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
     }
 }
 const canvas = document.getElementById('canvas');

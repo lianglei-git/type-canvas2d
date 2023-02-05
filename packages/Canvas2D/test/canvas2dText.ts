@@ -1,5 +1,5 @@
 
-import { Canvas2DApplication, vec2, Size, Rectangle } from '../core/index'
+import { Canvas2DApplication, vec2, Size, Rectangle, ELayout  } from '../core/index'
 import _createtab from './_createtab';
 /**
  * 
@@ -19,17 +19,6 @@ import _createtab from './_createtab';
  */
 
 
-export enum ETextLayout {
-    LEFT_TOP,
-    RIGHT_TOP,
-    RIGHT_BOTTOM,
-    LEFT_BOTTOM,
-    CENTER_MIDDLE,
-    CENTER_TOP,
-    RIGHT_MIDDLE,
-    CENTER_BOTTOM,
-    LEFT_MIDDLE
-}
 /** 文本的实现 和 测试  */
 class TextTest extends Canvas2DApplication {
     public printTextStates(): void {
@@ -125,48 +114,48 @@ class TextTest extends Canvas2DApplication {
         this.fillRectWithTitle(x, y, width, height);
         // 2. 左上
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'left - top', ETextLayout.LEFT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
+            'left - top', ELayout.LEFT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
         // 3. 右上
         drawX = right - drawWidth;
         drawY = y;
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'right - top', ETextLayout.RIGHT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
+            'right - top', ELayout.RIGHT_TOP, 'rgba( 255 , 255 , 0 , 0.2 )');
 
         // 4. 右下
         drawX = right - drawWidth;
         drawY = bottom - drawHeight;
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'right - bottom', ETextLayout.RIGHT_BOTTOM, 'rgba( 255 , 255 ,0, 0.2)');
+            'right - bottom', ELayout.RIGHT_BOTTOM, 'rgba( 255 , 255 ,0, 0.2)');
         // 5. 左下
         drawX = x;
         drawY = bottom - drawHeight;
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'left - bottom', ETextLayout.LEFT_BOTTOM, 'rgba( 255 , 255 , 0 ,0.2)');
+            'left - bottom', ELayout.LEFT_BOTTOM, 'rgba( 255 , 255 , 0 ,0.2)');
         // 6. 中心
         drawX = (right - drawWidth) * 0.5;
         drawY = (bottom - drawHeight) * 0.5;
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'center - middle', ETextLayout.CENTER_MIDDLE, 'rgba( 255 , 0 ,0, 0.2)');
+            'center - middle', ELayout.CENTER_MIDDLE, 'rgba( 255 , 0 ,0, 0.2)');
         // 7. 中上
         drawX = (right - drawWidth) * 0.5;
         drawY = y;
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'center - top', ETextLayout.CENTER_TOP, 'rgba( 0 , 255 , 0 , 0.2 )');
+            'center - top', ELayout.CENTER_TOP, 'rgba( 0 , 255 , 0 , 0.2 )');
         // 8. 右中
         drawX = (right - drawWidth);
         drawY = (bottom - drawHeight) * 0.5;
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'right - middle', ETextLayout.RIGHT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
+            'right - middle', ELayout.RIGHT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
         // 9. 中下
         drawX = (right - drawWidth) * 0.5;
         drawY = (bottom - drawHeight);
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'center - bottom', ETextLayout.CENTER_BOTTOM, 'rgba( 0 , 255 ,0, 0.2)');
+            'center - bottom', ELayout.CENTER_BOTTOM, 'rgba( 0 , 255 ,0, 0.2)');
         // 10. 左中
         drawX = x;
         drawY = (bottom - drawHeight) * 0.5;
         this.fillRectWithTitle(drawX, drawY, drawWidth, drawHeight,
-            'left - middle', ETextLayout.LEFT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
+            'left - middle', ELayout.LEFT_MIDDLE, 'rgba( 0 , 255 , 0 ,0.2)');
     }
     // 下面三个方法以移动到 父类实现
     // public calcTextSize(text: string, char: string = 'W', scale: number = 0.5) {}
