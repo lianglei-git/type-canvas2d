@@ -1,11 +1,11 @@
 # type-canvas2d
 framework for canvas for typescript
 
-#### 两个方向
-1. [深入理解typescript这本书](https://jkchao.github.io/typescript-book-chinese/project/modules.html#%E5%85%A8%E5%B1%80%E6%A8%A1%E5%9D%97)
-2. [typescript图形作战](https://weread.qq.com/web/reader/d6b32000717cc126d6bdb9bkd3d322001ad3d9446802347)
-2022-1-5学习
-目的：使用typescript进行canvas的UI开发
+#### Direction 🧭
+1. [Book](https://jkchao.github.io/typescript-book-chinese/project/modules.html#%E5%85%A8%E5%B1%80%E6%A8%A1%E5%9D%97)
+2. [Book](https://weread.qq.com/web/reader/d6b32000717cc126d6bdb9bkd3d322001ad3d9446802347)
+
+目的：基于ts架构canvas UI design
 
 
 ##### 大纲介绍
@@ -21,10 +21,11 @@ framework for canvas for typescript
 - [第三章 - Canvas 2D](packages/Canvas2D/index.ts)
 - [第四章 - Canvas 2D绘图](packages/Canvas2D/index.ts)
 - [第五章 - Canvas 2D坐标转换](packages/Canvas2DCoord/index.ts)
+- [第六章 - 向量数学](packages/Vector/index.ts)
     
 
-##### systemjs 
-importScripts
-其他参考链接`https://zhuanlan.zhihu.com/p/402155045`
+#### systemjs 
+**importScripts**
+link for `https://zhuanlan.zhihu.com/p/402155045`
 
 

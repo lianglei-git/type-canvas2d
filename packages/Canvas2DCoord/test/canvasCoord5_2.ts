@@ -179,6 +179,9 @@ class Tank {
             this.x = this.x + Math.cos(this.tankRotation) * currSpeed;
             this.y = this.y + Math.sin(this.tankRotation) * currSpeed;
         }
+
+        // 向量进行之后的修改操作
+        
     }
     // 在Tank类中实现update公开方法，TestApplication类的update覆写方法调用本方法
     // 就可以不停地更新坦克的位置
@@ -199,6 +202,7 @@ class Tank {
         } else if (evt.key === 'e') {
             this.turretRotation -= this.turretRotateSpeed;
         }
+        
     }
 
 }
@@ -288,6 +292,7 @@ class Application5_2 extends Coord {
     // TestApplication类中覆盖（override）基类的dispatchKeyPress
     protected dispatchKeyPress(evt: CanvasKeyBoardEvent): void {
         this._tank.onKeyPress(evt);
+
     }
 
 
