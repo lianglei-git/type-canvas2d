@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
         'canvas2d': './packages/Canvas2D/index.html',
         'doom3': './packages/Doom3/index.html',
         'canvas2dCoord': './packages/Canvas2DCoord/index.html',
+        'boolean': './modules/polybooljs-master/dist/demo.html',
     }
     
     const iframe:any = document.getElementById('iframe');

@@ -197,7 +197,7 @@ class Tank {
         }
     }
 }
-class Application5_2 extends Coord {
+export class Application5_2 extends Coord {
     // 在TestApplication类中增加如下成员变量
     _tank;
     constructor(canvas) {
