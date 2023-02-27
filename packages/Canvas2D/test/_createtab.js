@@ -24,6 +24,7 @@ const createTab = (title = '', checkRadio, events) => {
         group.append(radio);
     });
     const titleEl = document.querySelector('#title');
+    titleEl.innerHTML = '';
     titleEl.innerHTML = '<div>' + title + '</div>'; //'基本的几何体'
     titleEl.append(group);
     // document.body.insertBefore(group, document.getElementById('canvas'))

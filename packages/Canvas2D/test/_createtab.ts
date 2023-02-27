@@ -30,6 +30,7 @@ const createTab = (title = '', checkRadio:string[], events: {
         group.append(radio);
     })
     const titleEl:any = document.querySelector('#title');
+    titleEl.innerHTML = ''
     titleEl.innerHTML = '<div>'+title+'</div>' //'基本的几何体'
     titleEl.append(group);
     // document.body.insertBefore(group, document.getElementById('canvas'))
